@@ -23,11 +23,14 @@ nextPickup <- function(trafficMatrix, carInfo, packageMatrix) {
   return(packageMatrix[which.min(distanceVector), c(1,2)])
 }
 
-step <- function(path, destX, destY) {
+# Returns next move based on path and destination
+nextMove <- function(path, destX, destY) {
   
   if (length(path) == 0) {
+    # Need to wait for new goal from myFunction and subsequently new path from A*
     return(5)
   } 
+  
   # Get current x and y
   x = path[[1]][[1]]
   y = path[[1]][[2]]
@@ -55,23 +58,23 @@ aStar <- function(trafficMatrix, carInfo, packageMatrix) {
   # Initial node. Node structure: [x, y, cost, path]
   init <- list(carInfo$x, carInfo$y, 0, list())
   
-  # Frontier is a list of nodes (a node is represented by a list)
+  # Initialize frontier
   frontier <- list(init)
   
   # Save destination coordinates
   destX <- carInfo$mem$goal[1]
   destY <- carInfo$mem$goal[2]
   
-  #Visited set
+  # Initialize visited set
   visited <- list(init)
   
   repeat {
     head <- frontier[[1]] # Get first node from frontier
     frontier <- frontier[-1] # Pop first node from frontier
     
-    # If we've found path
+    # When A* has found a path, send path & dest to step function and return a move
     if (head[[1]] == destX & head[[2]] == destY) {
-      return(step(head[[4]], destX, destY))
+      return(nextMove(head[[4]], destX, destY))
     } 
     
     # Add head to path
@@ -81,9 +84,8 @@ aStar <- function(trafficMatrix, carInfo, packageMatrix) {
     # Get neighbors of frontier node
     neighbors <- getNeighbors(head[[1]], head[[2]], destX, destY, trafficMatrix)
     
-    # Add neighbors to frontier
+    # Add unvisited neighbors to frontier
     for (n in neighbors) {
-      # Create frontier element from neighbor (x, y, cost, path)
       vis = FALSE
       for (v in visited) {
         if (v[[1]] == n[[1]] & v[[2]] == n[[2]]) {
