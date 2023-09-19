@@ -11,7 +11,8 @@ myFunction <- function(trafficMatrix, carInfo, packageMatrix) {
   }
   
   # How do we get there?
-  carInfo$nextMove <- aStar(trafficMatrix, carInfo,packageMatrix)
+  path <- aStar(trafficMatrix, carInfo,packageMatrix)
+  carInfo$nextMove <- nextMove(path, carInfo$mem$goal[1], carInfo$mem$goal[2])
   
   return(carInfo)
 }
@@ -74,7 +75,7 @@ aStar <- function(trafficMatrix, carInfo, packageMatrix) {
     
     # When A* has found a path, send path & dest to step function and return a move
     if (head[[1]] == destX & head[[2]] == destY) {
-      return(nextMove(head[[4]], destX, destY))
+      return(head[[4]])
     } 
     
     # Add head to path
