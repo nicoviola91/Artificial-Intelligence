@@ -36,7 +36,7 @@ nextMove <- function(path, destX, destY) {
   x = path[[1]][[1]]
   y = path[[1]][[2]]
   
-  # If next step is not the goal, return path
+  # If next step is not the goal, set destination to next step in the path
   if (length(path) > 1) {
     destX = path[[2]][[1]]
     destY = path[[2]][[2]]
@@ -73,7 +73,7 @@ aStar <- function(trafficMatrix, carInfo, packageMatrix) {
     head <- frontier[[1]] # Get first node from frontier
     frontier <- frontier[-1] # Pop first node from frontier
     
-    # When A* has found a path, send path & dest to step function and return a move
+    # When A* has found a path, return it
     if (head[[1]] == destX & head[[2]] == destY) {
       return(head[[4]])
     } 
