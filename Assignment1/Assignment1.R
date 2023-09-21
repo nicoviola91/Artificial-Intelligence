@@ -1,10 +1,5 @@
 library("DeliveryMan")
 
-printPackagematrix <- function(trafficMatrix, carInfo, packageMatrix) {
-  print(packageMatrix)
-  print(packageMatrix[1,2])
-}
-
 myFunction <- function(trafficMatrix, carInfo, packageMatrix) {
   # What is our goal?
   if(carInfo$load == 0) {
