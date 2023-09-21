@@ -1,5 +1,10 @@
 library("DeliveryMan")
 
+printPackagematrix <- function(trafficMatrix, carInfo, packageMatrix) {
+  print(packageMatrix)
+  print(packageMatrix[1,2])
+}
+
 myFunction <- function(trafficMatrix, carInfo, packageMatrix) {
   # What is our goal?
   if(carInfo$load == 0) {
@@ -139,8 +144,8 @@ getNeighbors <- function(x, y, destX, destY, trafficMatrix) {
   
 }
 
+runDeliveryMan(carReady = myFunction, dim = 10, turns = 2000, doPlot = T, pause = 0.1, del = 5, verbose = T)
 
-
-
+testDM(myFunction, verbose = 0, returnVec = FALSE, n = 500, seed = 21, timeLimit = 250)
 
 
